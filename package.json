@@ -1,0 +1,23 @@
+{
+  "name": "lru-cache",
+  "version": "0.0.0",
+  "description": "Simple implementation of LRU cache.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "library",
+    "cs",
+    "theory",
+    "algorithm"
+  ],
+  "author": "vivek poddar",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "gulp": "^3.8.10",
+    "gulp-mocha": "^2.0.0",
+    "mocha": "^2.1.0"
+  }
+}
