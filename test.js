@@ -11,11 +11,12 @@ describe('LRUCache', function() {
     cache.capacity.should.equal(10);
   });
 
-  xit('del', function() {
-    var cache = new LRUCache(10);
+  it('del', function() {
+    var cache = new LRUCache(2);
     cache.set('foo', 'bar');
     cache.del('foo');
     should.not.exist(cache.get('foo'));
+    cache.size.should.equal(0);
   });
 
   it('reset', function() {
@@ -43,8 +44,8 @@ describe('LRUCache', function() {
     cache.set('foo', 'bar');
     cache.set('key', 'value');
     cache.keys().should.deep.equal(['foo', 'key']);
-/*    cache.del('key');
-    cache.keys().should.equal(['foo']);*/
+    cache.del('key');
+    cache.keys().should.deep.equal(['foo']);
   });
 
   it('values', function() {
@@ -52,7 +53,7 @@ describe('LRUCache', function() {
     cache.set('foo', 'bar');
     cache.set('key', 'value');
     cache.values().should.deep.equal(['bar', 'value']);
-    /* cache.del('key');
-    cache.values().should.equal(['bar']);*/
+    cache.del('key');
+    cache.values().should.deep.equal(['bar']);
   });
 });

@@ -11,8 +11,8 @@
   function LRUCache(maxLimit, opts) {
     this.size = 0;
     this.capacity = maxLimit;
-    this.tail = null;
-    this.head = null;
+    this.tail = undefined;
+    this.head = undefined;
     this._keyMap = {};
   }
   var Prototype = LRUCache.prototype;
@@ -72,7 +72,7 @@
 
 
   Prototype.reset = function() {
-    this.head = this.tail = null;
+    this.head = this.tail = undefined;
     this.size = 0;
     this._keyMap = {};
   };
@@ -90,7 +90,7 @@
 
   Prototype.values = function() {
     var values = [],
-        entry  = this.head;
+        entry = this.head;
     while (entry) {
       values.push(entry.value);
       entry = entry.next;
@@ -116,11 +116,42 @@
   };
 
 
+  Prototype.del = function(key) {
+    var entry = this._keyMap[key];
+    if (!entry) {
+      return;
+    }
+    delete this._keyMap[key];
+
+    if (entry.next && entry.prev) {
+      // middle entry
+      entry.prev.next = entry.next;
+      entry.next.prev = entry.prev;
+    } else if (entry.next) {
+      // remove the hard link with the next entry
+      entry.next.prev = undefined;
+      this.head = entry.next;
+    } else if (entry.prev) {
+      entry.prev.next = undefined;
+      this.tail = entry.prev;
+    } else {
+      // its the only entry
+      this.head = this.tail = undefined;
+    }
+
+    // remove any hard links from the current entry
+    entry.next = entry.prev = undefined;
+
+    this.size--;
+    return entry.value;
+  };
+
+
   function Entry(key, value) {
     this.key = key;
     this.value = value;
-    this.prev = null;
-    this.next = null;
+    this.prev = undefined;
+    this.next = undefined;
   };
 
 }());
